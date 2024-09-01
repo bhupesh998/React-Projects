@@ -2,19 +2,11 @@
 
 import React from "react"
 import ReactDOM from "react-dom/client"
+import App from "./App"
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 
-const div=<div className="text">Hello DIV</div>
-console.log(div);
-
-const GreetingComponent = ()=>  <>
-        {div} 
-        "I am inside Component"
-    </>
 
 
-console.log(GreetingComponent);
+root.render(<App/>)
 
-root.render(<GreetingComponent/>)
-//root.render(GreetingComponent())
