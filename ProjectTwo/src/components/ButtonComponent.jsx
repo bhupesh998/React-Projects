@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {memo } from 'react'
 
-const ButtonComponent = (props) => {
-  console.log(props);
+const ButtonComponent = memo((props) => {
+  console.log("Button Rerender");
+  
   const {children, clickAction } = props
 
   const handleButtonClick=()=>{
@@ -11,6 +12,6 @@ const ButtonComponent = (props) => {
   return (
     <button onClick={handleButtonClick}>{children}</button>
   )
-}
+})
 
 export default ButtonComponent
