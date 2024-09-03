@@ -19,18 +19,20 @@ const App =()=>{
   // also then we can synchronise our component from external system
 
 
+  
+
   useEffect(()=>{
-    console.log("i am useefeect");
+    console.log("i am useefeect for datatwo");
     
-  }, [data])
+  }, [dataTwo])
 
    return (
     <>
-   {data}
+   <TextComponent externalData={data}></TextComponent>
    <button onClick={()=> useData((prevData)=>++prevData)}>Update</button>
   
    <br/> <br/>
-   {dataTwo}
+   <TextComponent externalData={dataTwo}></TextComponent>
    <button onClick={()=> useDataTwo((prevData)=>++prevData)}>Update</button>
     </>
    )
