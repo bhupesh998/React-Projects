@@ -1,41 +1,23 @@
-import React , { useState, useCallback, useEffect} from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 // use effect can be called at certain ocassions when component renders , change is there in props and component mounts
 import TextComponent from './components/TextComponent.jsx'
 import ButtonComponent from './components/ButtonComponent.jsx'
+import TimerComponent from './components/TimerComponent.jsx'
 
-const App =()=>{
+const App = () => {
 
-  const [data, useData] = useState(0)
-  const [dataTwo, useDataTwo] = useState(100)
+  const [showTimer, toggleTimer]= useState(true)
 
-
+  return <>
+    { showTimer && <TimerComponent />}
+    <button onClick={toggleTimer(!showTimer)}>Remove Timerr</button>
+  </>
+// from here we will remove the timer but the setinterval will be always running still , this is a memory leak
+// so we need to do cleanup , this clean up function will run for every use efeect with dependency array or not
+// in the end  return ()=>{
   
-  // 1st argument - callback, 2nd dependency array
-  // if dependecy array not passed, after every render its running
-  // if empty dependency array passed , then use effect will only run on mount of the application
-  // dependency array can take anything that can be changed during rerender
+// }
 
-  //in a way useeffect is listening to changes , for data or dataTwo but these are part of component only but these data and datatwo can come as props
-  // also then we can synchronise our component from external system
-
-
-  
-
-  useEffect(()=>{
-    console.log("i am useefeect for datatwo");
-    
-  }, [dataTwo])
-
-   return (
-    <>
-   <TextComponent externalData={data}></TextComponent>
-   <button onClick={()=> useData((prevData)=>++prevData)}>Update</button>
-  
-   <br/> <br/>
-   <TextComponent externalData={dataTwo}></TextComponent>
-   <button onClick={()=> useDataTwo((prevData)=>++prevData)}>Update</button>
-    </>
-   )
 }
 
 export default App
