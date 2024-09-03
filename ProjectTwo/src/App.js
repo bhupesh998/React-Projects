@@ -1,36 +1,37 @@
-import React , { useState, useCallback} from 'react'
+import React , { useState, useCallback, useEffect} from 'react'
+// use effect can be called at certain ocassions when component renders , change is there in props and component mounts
 import TextComponent from './components/TextComponent.jsx'
 import ButtonComponent from './components/ButtonComponent.jsx'
 
 const App =()=>{
-    const [message, updateMessage ] = useState("Hello Buddy")
-   
 
-   const changeMessage = useCallback(()=>{
-   // updateMessage("Hello I am Back")
-    console.log("before update value is---->", message);
+  const [data, useData] = useState(0)
+  const [dataTwo, useDataTwo] = useState(100)
+
+
+  
+  // 1st argument - callback, 2nd dependency array
+  // if dependecy array not passed, after every render its running
+  // if empty dependency array passed , then use effect will only run on mount of the application
+  // dependency array can take anything that can be changed during rerender
+
+  //in a way useeffect is listening to changes , for data or dataTwo but these are part of component only but these data and datatwo can come as props
+  // also then we can synchronise our component from external system
+
+
+  useEffect(()=>{
+    console.log("i am useefeect");
     
-   //below use when you want to deal with previous data as well
-   //update message is working asynchronously , proved by printing before and after update value
-   updateMessage((prevData)=>{
-    console.log("Previous Data is", prevData);
-    return "Hello Batman"
-   })
-
-   console.log("after update value is---->", message);
-    
-   }, [])
-
-   console.log("Outside change Message", message);
-   
+  }, [data])
 
    return (
     <>
-    <div>{message}</div>
-  { 
-  // <button onClick={changeMessage}>Change Me</button>
-  }
-    <ButtonComponent clickAction={changeMessage}>Change Me</ButtonComponent>
+   {data}
+   <button onClick={()=> useData((prevData)=>++prevData)}>Update</button>
+  
+   <br/> <br/>
+   {dataTwo}
+   <button onClick={()=> useDataTwo((prevData)=>++prevData)}>Update</button>
     </>
    )
 }
