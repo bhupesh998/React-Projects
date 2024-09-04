@@ -1,4 +1,4 @@
-import React ,  { useState, useEffect}from 'react'
+import React ,  { useState, useEffect, useLayoutEffect}from 'react'
 
 const TimerComponent = () => {
     const [counter, setCounter] = useState(0)
@@ -22,6 +22,15 @@ const TimerComponent = () => {
         }
         
       }, [])
+
+
+    // use layout effect is used when we want to perform calculation about an element like calculating height width, caculation some styles or density
+    // before element rendering if you want to calculate something then useLayoutEffect
+    // used in cases where before element apprears on screen and when we need to do something & it helps avoid lags and jitters
+    useLayoutEffect(()=>{
+      console.log("running use layout effect");
+      
+    })
     
        return (
         <>
