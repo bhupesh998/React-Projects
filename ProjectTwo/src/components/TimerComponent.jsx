@@ -1,12 +1,13 @@
-import React ,  { useState, useEffect, useLayoutEffect}from 'react'
+import React ,  { useState, useEffect, useLayoutEffect, useRef}from 'react'
+
 
 const TimerComponent = () => {
     const [counter, setCounter] = useState(0)
-
+    const  interVal = useRef(null)
     useEffect(()=>{
         console.log("i am running set interval");
         
-       const interVal =  setInterval(() => {
+        interVal.current =  setInterval(() => {
           setCounter((prevCounter)=>++prevCounter)
         }, 1000);
 
@@ -17,7 +18,7 @@ const TimerComponent = () => {
         return ()=>{
             console.log("i was unmountd");
             console.log("Interval with Id Removed", interVal);
-            clearInterval(interVal)
+            clearInterval(interVal.current)
             
         }
         
@@ -27,16 +28,23 @@ const TimerComponent = () => {
     // use layout effect is used when we want to perform calculation about an element like calculating height width, caculation some styles or density
     // before element rendering if you want to calculate something then useLayoutEffect
     // used in cases where before element apprears on screen and when we need to do something & it helps avoid lags and jitters
-    useLayoutEffect(()=>{
-      console.log("running use layout effect");
+    // useLayoutEffect(()=>{
+    //   console.log("running use layout effect");
       
-    })
+    // })
+
+    const stopTimer =()=>{
+      console.log("Interval with id stoptimer ", interVal.current);
+      clearInterval(interVal.current)
+      
+    }
     
        return (
         <>
         <span>Current Time is : {counter} </span>
         <br/>
         {/* <button onClick={startTimer}>Start Timer</button> */}
+          <button onClick={stopTimer}>Stop Timer</button> 
       
         </>
        )
