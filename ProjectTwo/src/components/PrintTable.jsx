@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { useMemo } from 'react'
 
 
 const generateTable=(num)=>{
@@ -13,15 +13,16 @@ const generateTable=(num)=>{
     return arr
 }
 
-const PrintTable = memo((props) => {
+const PrintTable = (props) => {
     let {num}= props
-    const table = generateTable(num)
+    // if num is not passed then this will i.e. generate table will also remember the first render instance and table will not be updated on counter1 increase
+    const table = useMemo(()=>generateTable(num),[num])
   return (
     <>
     <div>PrintTable</div>
     {table}
     </>
   )
-})
+}
 
 export default PrintTable
