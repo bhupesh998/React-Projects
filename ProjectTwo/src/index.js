@@ -6,13 +6,17 @@ import App from "./App"
 import "./styles.css"
 import { storeVal } from './components/Store'
 import { Provider } from 'react-redux'
+import { BrowserRouter } from "react-router-dom"
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 
 
 
-root.render(<Provider store={storeVal}>
-    <App />
-  </Provider>
+root.render(
+    <BrowserRouter>
+        <Provider store={storeVal}>
+                <App />
+        </Provider>
+    </BrowserRouter>
 )
 

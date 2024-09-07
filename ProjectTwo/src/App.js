@@ -1,17 +1,27 @@
-import React, {  useState} from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { decrement, increment, incByAmount } from './components/counterSlice'
+import React from 'react'
+import { Routes , Route, Link , useParams} from 'react-router-dom'
+
+const HomeComponent = ()=>{
+  return <>I am Home Component</>
+}
+
+const ProfileComponent = ()=>{
+  const {userName} = useParams()
+  return <>I am your fan : {userName}</>
+}
 
 export default function App() {
-  
-  const count = useSelector((state) => state.counterKey.counterValue)
-  const dispatch = useDispatch()
-
   return <>
-    <h1>{count}</h1>
-    <button onClick={()=>dispatch(increment())}>Increase</button>
-    <button onClick={()=>dispatch(decrement())}>Decrase</button>
-    <button onClick={()=>dispatch(incByAmount(6))}>Increase by N</button>
+    <Link to="/">Home</Link><br></br>
+    <Link to="/about">About</Link><br></br>
+    <Link to="/careers">Careers</Link> <br></br>
+    <Link to="/profile/NAMi">Visit Profile</Link> <br></br>
+    <Routes>
+      <Route path='/' element={<HomeComponent/>}/>
+      <Route path='/about' element={<>I am About</>}/>
+      <Route path='/profile/:userName' element={<ProfileComponent/>}/>
+      <Route path='/careers' element={<>I am Careers</>}/>
+    </Routes>
   
   </>
 }
