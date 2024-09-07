@@ -10,7 +10,8 @@ const TextComponent = memo((props) => {
     }, [externalData])
     
   return (
-    <div>{externalData}</div>
+    
+    <div>Text Component <br/>{externalData}: {children}</div>
   )
 })
 

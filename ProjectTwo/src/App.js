@@ -1,26 +1,27 @@
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState,lazy , Suspense} from 'react'
+const TextComponent = lazy(() => delayForDemo(import('./components/TextComponent.jsx')))
 import TimerComponent from './components/TimerComponent.jsx'
 import ButtonWithTooltip from './components/ButtonWithTooltip.jsx';
 import InputComponent from './components/InputComponent.jsx';
 import SecondParent from './components/SecondParent.jsx';
 import PrintTable from './components/PrintTable.jsx';
 
-// useMemo is a React Hook that lets you cache the result of a calculation between re-renders.
 export default function App() {
-  const [counter, setCounter]= useState(0)
-  const [counterTwo, setCounterTwo]= useState(0)
-  //const [myObj = setMyObj] = useState({channel: "Ted"})
-  const myObj = useMemo(()=>{channel: "Ted"}, []) 
-  const arr= useMemo(()=>["test", "array"], [])
-  const val =10
+  const [showText, toggleText] = useState(false)
   return <>
-  
-    Counter1: {counter} <br/> <button onClick={()=>setCounter((prev)=>++prev)}>Count1</button>
-    Counter2: {counterTwo}<br/> <button onClick={()=>setCounterTwo((prev)=>++prev)}>Count2</button>
-
-    {/* <PrintTable num={counter} obj={myObj}/> */}
-    {/* <PrintTable num={counter}  val={val}/> */}
-    {/* <PrintTable num={counter}  arr={arr}/> */}
-    <PrintTable num={counter} obj={myObj}  arr={arr} val={val}/>
+  <button onClick={()=>toggleText((prev)=>!prev)}>Toggle</button>
+  {/* <Suspense> lets you display a fallback until its children have finished loading. */}
+  { /* you shouldn't lazy load or suspense any component, use for only those component which are not loaded on the first load like dropdown, modal or popup i.e being shown after a user clicks on something*/}
+  {/* use it for only other component that can be loaded based on user demand like clicks etc */}
+  { showText &&  <Suspense fallback={<div>loading!!!</div>}>
+    <TextComponent> HI from </TextComponent>
+  </Suspense>}
+ 
   </>
+}
+
+function delayForDemo(promise) {
+  return new Promise(resolve => {
+    setTimeout(resolve, 2000);
+  }).then(() => promise);
 }
