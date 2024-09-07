@@ -1,27 +1,19 @@
-import React, { useMemo, useRef, useState,lazy , Suspense} from 'react'
-const TextComponent = lazy(() => delayForDemo(import('./components/TextComponent.jsx')))
-import TimerComponent from './components/TimerComponent.jsx'
-import ButtonWithTooltip from './components/ButtonWithTooltip.jsx';
-import InputComponent from './components/InputComponent.jsx';
-import SecondParent from './components/SecondParent.jsx';
-import PrintTable from './components/PrintTable.jsx';
-
-export default function App() {
-  const [showText, toggleText] = useState(false)
-  return <>
-  <button onClick={()=>toggleText((prev)=>!prev)}>Toggle</button>
-  {/* <Suspense> lets you display a fallback until its children have finished loading. */}
-  { /* you shouldn't lazy load or suspense any component, use for only those component which are not loaded on the first load like dropdown, modal or popup i.e being shown after a user clicks on something*/}
-  {/* use it for only other component that can be loaded based on user demand like clicks etc */}
-  { showText &&  <Suspense fallback={<div>loading!!!</div>}>
-    <TextComponent> HI from </TextComponent>
-  </Suspense>}
+import React, {  useState} from 'react'
+import { ThemeContext } from './components/Context';
+import  NavBarComponent  from './components/NavBarComponent.jsx'
+// Context lets a Parent component provide data to entire tree below it
+// Once you define a context at the parent levelbe it any sibling or child that particular data gets automatically available and you don't have to pass props via prop drilling
  
+export default function App() {
+  const [theme, setTheme] = useState('dark');
+  return <>
+    {/* This will cause the whole application to rerender on change of state */}
+    {
+      // if the state variable is present at top of hierarchy then it will cause the entire application to re render on entire children recursively 
+    }
+   <ThemeContext.Provider value={[theme, setTheme]}>
+      <NavBarComponent/>
+    </ThemeContext.Provider>
   </>
 }
 
-function delayForDemo(promise) {
-  return new Promise(resolve => {
-    setTimeout(resolve, 2000);
-  }).then(() => promise);
-}
