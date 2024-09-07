@@ -1,19 +1,14 @@
 import React, {  useState} from 'react'
-import { ThemeContext } from './components/Context';
-import  NavBarComponent  from './components/NavBarComponent.jsx'
-// Context lets a Parent component provide data to entire tree below it
-// Once you define a context at the parent levelbe it any sibling or child that particular data gets automatically available and you don't have to pass props via prop drilling
- 
+import { createPortal } from 'react-dom'
+
+
 export default function App() {
-  const [theme, setTheme] = useState('dark');
+ const [showModal, toggleModal] = useState(false)
   return <>
-    {/* This will cause the whole application to rerender on change of state */}
-    {
-      // if the state variable is present at top of hierarchy then it will cause the entire application to re render on entire children recursively 
-    }
-   <ThemeContext.Provider value={[theme, setTheme]}>
-      <NavBarComponent/>
-    </ThemeContext.Provider>
+   <h1 >Hey i am root</h1>
+   <button onClick={()=>toggleModal((prev)=>!prev)}>Toggle Modal</button>
+   {showModal && <div>This is Modal Content</div>}
+   {showModal && createPortal(<div>This is Modal Content</div>, document.body)}
   </>
 }
 
