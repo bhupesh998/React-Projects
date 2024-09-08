@@ -1,19 +1,25 @@
-import React from 'react'
-import InputComponentRender from './components/InputComponentRender.jsx'
+import React , {useState} from 'react'
+import TabComonent from './components/TabComonent.jsx'
 
-//Render Props pattern
-export default function App() {
+export default function App(){
+  const [currentTabIndex , setIndex ] = useState(1)
 
- // const showValue = value => <> The Value is : {value}</>
- // above was the code that we used to render input but if a requirement comes that we need the rendered value in h1 then we can change it here only
- // and no need to change the inputcomponent
- const showValue = value => <h1> The Value is : {value}</h1>
-  const multiplyValue =value=><>The Multiplied Value is : {value*10}</>
-
+  const handleChange =(newIndex)=>{
+        setIndex(newIndex)
+    }
 
   return <>
-  <InputComponentRender renderTextBelow ={showValue}/>
-  <hr/>
-  <InputComponentRender renderTextBelow ={multiplyValue}/>
+      <TabComonent currentTab={currentTabIndex}  onChange={handleChange}>
+        <TabComonent.HeadsContainer>
+          <TabComonent.Item label="Tab1" index={0} /> <br/><br/>
+          <TabComonent.Item label="Tab2" index={1} /> <br/><br/>
+          <TabComonent.Item label="Tab3" index={2} /> <br/><br/>
+        </TabComonent.HeadsContainer> 
+        <TabComonent.ContentContainer>
+          <TabComonent.ContentItem index={0}>I am Content Item 1</TabComonent.ContentItem> 
+          <TabComonent.ContentItem index={1} >I am Content Item 2</TabComonent.ContentItem> 
+          <TabComonent.ContentItem index={2}>I am Content Item 3</TabComonent.ContentItem>
+        </TabComonent.ContentContainer>
+      </TabComonent>
   </>
 }
