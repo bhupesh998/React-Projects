@@ -1,7 +1,6 @@
 import { debounce } from 'lodash'
 import React, { useEffect, useState , useMemo, useCallback} from 'react'
-
-
+// try app.module.css use , in that on screen the class name shows up as encoded instead of className that we use that is visible in normal css files
 
 export default function App() {
 
@@ -39,7 +38,7 @@ export default function App() {
   return <>
     <h1>STAR WARS FAN</h1>
 
-    <input type='text' value={inputData} onChange={handleInputChange} />
+    <input  type='text' value={inputData} onChange={handleInputChange} />
   
     { data && data?.length ? <ul> 
       {data.map((item)=> <li key={item?.created}>{item?.name} </li> )}
