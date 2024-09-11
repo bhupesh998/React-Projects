@@ -2,19 +2,21 @@
 
 import React from "react"
 import ReactDOM from "react-dom/client"
+import App from "./App"
+import "./styles.css"
+import { storeVal } from './components/Store'
+import { Provider } from 'react-redux'
+import { BrowserRouter } from "react-router-dom"
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 
-const div=<div className="text">Hello DIV</div>
-console.log(div);
-
-const GreetingComponent = ()=>  <>
-        {div} 
-        "I am inside Component"
-    </>
 
 
-console.log(GreetingComponent);
+root.render(
+    <BrowserRouter>
+        <Provider store={storeVal}>
+                <App />
+        </Provider>
+    </BrowserRouter>
+)
 
-root.render(<GreetingComponent/>)
-//root.render(GreetingComponent())

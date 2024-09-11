@@ -1,0 +1,48 @@
+.tooltip{
+    color: white;
+    background: #222;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.comp1{
+    height: 100px;
+    width: 150px;
+}
+
+.comp2{
+    height: 200px;
+    width: 250px;
+}
+
+.tab{
+    border: 2px solid black;
+}
+
+* {
+    margin: 3px;
+    padding: auto;
+}
+
+.headsContainer{
+    display: flex;
+    justify-content: space-evenly;
+    background-color: red;
+    cursor: pointer;
+}
+
+.item{
+    background-color: yellow;
+    width: 100%;
+    padding: 10px;
+    color: blue;
+}
+
+.item.active{
+    background-color: sienna;
+}
+
+.contentContainer{
+    background-color: gray;
+    padding: auto;
+}
