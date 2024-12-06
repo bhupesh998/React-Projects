@@ -1,12 +1,12 @@
 import React from 'react'
 
-const TabButtonComponent = ({children, onSelect}) => {
+const TabButtonComponent = ({children, ...forwardingProps}) => {
 
 
 
   return (
     <li>
-        <button onClick={onSelect}>
+        <button {...forwardingProps}>
                 {children}
         </button>
     </li>

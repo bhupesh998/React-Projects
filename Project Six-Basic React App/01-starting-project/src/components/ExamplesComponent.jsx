@@ -14,10 +14,10 @@ const ExamplesComponent = () => {
     return (
         <SectionComponent id="examples" title={"Examples"}>
             <menu>
-                <TabButtonComponent onSelect={function () { handleSelect('componets') }}>Components</TabButtonComponent>
-                <TabButtonComponent onSelect={() => handleSelect('jsx')}>JSX</TabButtonComponent>
-                <TabButtonComponent onSelect={() => handleSelect('props')}>Props</TabButtonComponent>
-                <TabButtonComponent onSelect={() => handleSelect('state')}>State</TabButtonComponent>
+                <TabButtonComponent onClick={function () { handleSelect('componets') }}>Components</TabButtonComponent>
+                <TabButtonComponent onClick={() => handleSelect('jsx')}>JSX</TabButtonComponent>
+                <TabButtonComponent onClick={() => handleSelect('props')}>Props</TabButtonComponent>
+                <TabButtonComponent onClick={() => handleSelect('state')}>State</TabButtonComponent>
             </menu>
             {selectedTopic}
         </SectionComponent>
