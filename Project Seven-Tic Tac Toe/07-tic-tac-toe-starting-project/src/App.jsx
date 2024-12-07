@@ -5,13 +5,13 @@ import LogComponent from "./component/logComponent"
 
 function App() {
 const [activePlayer, setActivePlayer]=useState('X')
- const [gemeTurns, setGameTurns] = useState([]) //using this to manage state for gameboard and log component instead of managing state in gameboard component
+ const [gameTurns, setGameTurns] = useState([]) //using this to manage state for gameboard and log component instead of managing state in gameboard component
 
   const handleSelectSquare=(rowIndex, colIndex)=>{
-    setActivePlayer((curActivePlayer)=>curActivePlayer === 'X'?'O' : 'X')
+    setActivePlayer((curActivePlayer)=>curActivePlayer === 'X'? 'O' : 'X')
     setGameTurns((prevTurns)=>{
       let currentPlayer = 'X'
-      if(prevTurns.lenth > 0 && prevTurns[0].player === 'X'){
+      if(prevTurns.length > 0 && prevTurns[0].player === 'X'){
         currentPlayer='O'
       }
       const updatedTurns =[{square : { row: rowIndex, col: colIndex}, player: currentPlayer}, ...prevTurns]
@@ -28,9 +28,9 @@ const [activePlayer, setActivePlayer]=useState('X')
 
 
         </ol>
-        <GameBoardComponent onSelectSquare={handleSelectSquare} activePlayerSymbol={activePlayer}/>
+        <GameBoardComponent onSelectSquare={handleSelectSquare} turns={gameTurns}/>
       </div>
-      <LogComponent />
+      <LogComponent turns={gameTurns} />
     </main>
   )
 }
