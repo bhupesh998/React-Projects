@@ -18,7 +18,7 @@ const Label = styled.label`
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #6b7280;
+  color: ${(props)=> props.$invalid ? "blue": "#6b7280" } 
 `
 
 const Input= styled.input`
@@ -57,7 +57,10 @@ export default function AuthInputs() {
       <ControlDiv>
      {/* <div className="controls"> */}
         <p>
-          <Label className={`label ${emailNotValid? 'Invalid': ''}`}>Email</Label>
+        
+          { /* for styled components we can handle conditon dynamically like below we can pass props then in the Label component , we get props object we can use it to dynamically apply condition based on value passed to props*/}
+          {/* $invalid written because to avoid inbuilt props that a component might have , we can write invalid also but some components like input has invalid props already with them to avoid clash its a good way to have custom prop name appened with $ */}
+          <Label $invalid={emailNotValid}>Email</Label>
           <Input
             type="email"
             // style={{
@@ -68,7 +71,7 @@ export default function AuthInputs() {
           />
         </p>
         <p>
-          <Label>Password</Label>
+          <Label $invalid={passwordNotValid}>Password</Label>
           <Input
             type="password"
             className={passwordNotValid ? 'invalid' : undefined}
