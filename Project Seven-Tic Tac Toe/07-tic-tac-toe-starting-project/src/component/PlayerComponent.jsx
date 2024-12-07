@@ -1,12 +1,15 @@
 import React, { useState} from 'react'
 
-const PlayerComponent = ({name , symbol, isActive}) => {
+const PlayerComponent = ({name , symbol, isActive, onChangeName}) => {
 
  const [isEditing , setIsEditing] = useState(false)
  const [playerName, setPlayerName] = useState(name)
  const handleClick =()=>{
         setIsEditing(prevState=> !prevState) //this way is used so react always use latest state value while updating the state
-
+        if(isEditing){
+            onChangeName(symbol, playerName)
+        }
+       
  }
 
  const handleChange =(event)=>{

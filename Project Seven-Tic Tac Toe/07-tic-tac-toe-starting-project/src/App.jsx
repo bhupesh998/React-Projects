@@ -12,6 +12,11 @@ const intialBoard = [
   [null, null, null]
 ]
 
+const PLAYERS ={
+  'X': 'Player X',
+  'O': 'Player O'
+} 
+
 
 function deriveActivePlayer(gameTurns){
   let currentPlayer = 'X'
@@ -22,28 +27,8 @@ function deriveActivePlayer(gameTurns){
   return currentPlayer
 }
 
-
-  
-
-function App() {
-// const [activePlayer, setActivePlayer]=useState('X') // we can also derive it from gameturns instead of managing an active state 
- const [gameTurns, setGameTurns] = useState([]) //using this to manage state for gameboard and log component instead of managing state in gameboard component
-
-  const activePlayer = deriveActivePlayer(gameTurns) //now we don't need to manage state for active player , we are derieving it from gameturns 
-  //manage a little as state as possible and try deriving state by computing from present states
-
- 
- // let gameBoard = intialBoard // by using this we are directly editing initial gameboard in memory so we need to edit it by create a deep copy
- let gameBoard = [...intialBoard.map(innerArr=> [...innerArr])]
-    for(const turn of gameTurns){
-        const {square, player} = turn
-        const {row, col} = square
-
-        gameBoard[row][col] = player
-
-    }
-
-    let winner = null
+function deriveWinner(gameBoard, players){
+  let winner = null
 
   for(const combination of WINNING_COMBINATIONS){
     const firstSquareSymbol = gameBoard[combination[0].row][combination[0].column]
@@ -51,14 +36,58 @@ function App() {
     const thirdSquareSymbol = gameBoard[combination[2].row][combination[2].column]
 
     if(firstSquareSymbol && firstSquareSymbol===secondSquareSymbol && secondSquareSymbol==thirdSquareSymbol){
-      winner = firstSquareSymbol
+      winner = players[firstSquareSymbol]
     }
   }
+
+  return winner
+}
+
+function deriveGameBoard(gameTurns){
+  // let gameBoard = intialBoard // by using this we are directly editing initial gameboard in memory so we need to edit it by create a deep copy
+ let gameBoard = [...intialBoard.map(innerArr=> [...innerArr])]
+ for(const turn of gameTurns){
+     const {square, player} = turn
+     const {row, col} = square
+
+     gameBoard[row][col] = player
+
+ }
+
+ return gameBoard
+}
+
+
+  
+
+function App() {
+
+  const [ players, setPlayers ] = useState(PLAYERS)
+// const [activePlayer, setActivePlayer]=useState('X') // we can also derive it from gameturns instead of managing an active state 
+ const [gameTurns, setGameTurns] = useState([]) //using this to manage state for gameboard and log component instead of managing state in gameboard component
+
+  const activePlayer = deriveActivePlayer(gameTurns) //now we don't need to manage state for active player , we are derieving it from gameturns 
+  //manage a little as state as possible and try deriving state by computing from present states
+
+ 
+ 
+  const gameBoard = deriveGameBoard(gameTurns)
+  const winner = deriveWinner(gameBoard, players)
+    
 
   const gameDraw = gameTurns.length === 9 && !winner;
 
   function handleRematch(){
     setGameTurns([])
+  }
+
+  const handlePlayerNameChange = (symbol, newName)=> {
+    setPlayers((prevPlayers)=>{
+      return {
+        ...prevPlayers,
+        [symbol]: newName
+      }
+    })
   }
 
   const handleSelectSquare=(rowIndex, colIndex)=>{
@@ -75,8 +104,8 @@ function App() {
     <main>
       <div id="game-container">
         <ol id='players' className="highlight-player">
-<PlayerComponent name="player1"  symbol="X" isActive={activePlayer==='X'}/>
-<PlayerComponent name="player2"  symbol="O" isActive={activePlayer==='O'}/>
+<PlayerComponent name={PLAYERS.X}  symbol="X" isActive={activePlayer==='X'} onChangeName={handlePlayerNameChange}/>
+<PlayerComponent name={PLAYERS.O}    symbol="O" isActive={activePlayer==='O'} onChangeName={handlePlayerNameChange}/>
 
 
         </ol>
