@@ -15,7 +15,7 @@ const TimerComponent = ({ title, targetTime }) => {
     function handleStart() {
         timer.current = setTimeout(() => {
             setTimerExpired(true)
-            dailog.current.showModal()
+            dailog.current.open()
         }, targetTime * 1000)
 
         setTimerStarted(true)
@@ -27,7 +27,7 @@ const TimerComponent = ({ title, targetTime }) => {
 
     return (
         <>
-           <ResultModal refl={dailog} targeTime={targetTime} result="lost"/>
+           <ResultModal ref={dailog} targeTime={targetTime} result="lost"/>
             <section className='challenge'>
                 <h2>{title}</h2>
               
