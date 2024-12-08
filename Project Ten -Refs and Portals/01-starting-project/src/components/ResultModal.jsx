@@ -1,4 +1,5 @@
 import React, {forwardRef, useImperativeHandle, useRef} from 'react'
+import { createPortal} from 'react-dom'
 
 /*
 const ResultModal = ({refl, result, targeTime}) => {
@@ -32,7 +33,7 @@ const ResultModal = forwardRef(({  targeTime, remainingTime, onReset}, ref) => {
             }
         }
     })
-    return (
+    return createPortal((
       // on changing the dialog tag to div , we need to adjust the logic of open method based on div tag or any tag that we use 
       // the ref prop on resultModal is bind to dailog in timer component and useInperative handler help us to keep that in binding
       // now we are calling open method from dailog of timerComponent that act as a wrapper to showModal, we can name the method open anything else also
@@ -46,7 +47,7 @@ const ResultModal = forwardRef(({  targeTime, remainingTime, onReset}, ref) => {
           </form>
   
       </dialog>   
-    )
+    ), document.getElementById('modal'))
   })
 
 export default ResultModal
