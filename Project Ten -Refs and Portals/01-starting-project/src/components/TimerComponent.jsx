@@ -5,29 +5,37 @@ import ResultModal from './ResultModal'
 
 const TimerComponent = ({ title, targetTime }) => {
 
-    const [timerExpired, setTimerExpired] = useState(false)
-    const [timerStarted, setTimerStarted] = useState(false)
+    const [timeRemaining, setTimeRemaining] = useState(targetTime*1000)
+    const isTimerActive = timeRemaining>0 && timeRemaining<targetTime*1000;
 
     // let timer  - to use this syntax , we need to declare it outside so it will be global to file and will not be rerendered as currently on state change component rerenders and variable gets created again 
     let timer = useRef() //this will be specific to each component, each one will have a diffrent ref
     let dailog = useRef()
 
-    function handleStart() {
-        timer.current = setTimeout(() => {
-            setTimerExpired(true)
-            dailog.current.open()
-        }, targetTime * 1000)
+    if(timeRemaining <=0){
+        handleStop()
+        
+    }
 
-        setTimerStarted(true)
+    function handleStart() {
+        timer.current = setInterval(() => {
+            setTimeRemaining(prevTiming=> prevTiming-10)
+        }, 10)
+
     }
 
     function handleStop() {
-        clearTimeout(timer.current)
+        dailog.current.open()
+        clearInterval(timer.current)
+    }
+
+    function handleReset(){
+        setTimeRemaining(targetTime *1000)
     }
 
     return (
         <>
-           <ResultModal ref={dailog} targeTime={targetTime} result="lost"/>
+           <ResultModal ref={dailog} targeTime={targetTime} remainingTime={timeRemaining} onReset={handleReset}/>
             <section className='challenge'>
                 <h2>{title}</h2>
               
@@ -35,12 +43,12 @@ const TimerComponent = ({ title, targetTime }) => {
                     {targetTime} Second{targetTime > 1 ? 's' : ''}
                 </p>
                 <p>
-                    <button onClick={timerStarted ? handleStop : handleStart}>
-                        {timerStarted ? 'Stop' : 'Start'} Challange
+                    <button onClick={isTimerActive ? handleStop : handleStart}>
+                        {isTimerActive ? 'Stop' : 'Start'} Challange
                     </button>
                 </p>
-                <p className={timerStarted ? 'active' : ''}>
-                    {timerStarted ? 'Time is Running' : 'Timer Inactive'}
+                <p className={isTimerActive ? 'active' : ''}>
+                    {isTimerActive ? 'Time is Running' : 'Timer Inactive'}
                 </p>
             </section>
         </>
