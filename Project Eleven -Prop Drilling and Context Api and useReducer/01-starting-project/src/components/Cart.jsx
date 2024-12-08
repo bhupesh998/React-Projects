@@ -1,5 +1,15 @@
-export default function Cart({ items, onUpdateItemQuantity }) {
-  const totalPrice = items.reduce(
+import { useContext } from "react"; //to consume the context, we can also try "use" hook
+import { CartContext } from "../store/shopping-cart-context";
+
+// useContext and use hook - the use hook can be used inside of an if block normally hooks don't work in if and other statements but this use hook works inside it
+//the use hook is available in react version 19 or higher
+
+
+
+
+export default function Cart({  onUpdateItemQuantity }) {
+  const cartCtx = useContext(CartContext)
+  const totalPrice = cartCtx.items.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
@@ -7,10 +17,10 @@ export default function Cart({ items, onUpdateItemQuantity }) {
 
   return (
     <div id="cart">
-      {items.length === 0 && <p>No items in cart!</p>}
-      {items.length > 0 && (
+      {cartCtx.items.length === 0 && <p>No items in cart!</p>}
+      {cartCtx.items.length > 0 && (
         <ul id="cart-items">
-          {items.map((item) => {
+          {cartCtx.items.map((item) => {
             const formattedPrice = `$${item.price.toFixed(2)}`;
 
             return (
