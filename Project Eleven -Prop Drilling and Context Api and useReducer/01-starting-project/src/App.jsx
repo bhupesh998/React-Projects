@@ -70,7 +70,8 @@ function App() {
 
   const ctxValue = {
     items: shoppingCart.items,
-    addItemToCart : handleAddItemToCart
+    addItemToCart : handleAddItemToCart,
+    updateItemQuantity: handleUpdateCartItemQuantity
   }
 
   return (
@@ -78,14 +79,11 @@ function App() {
     
       <CartContext.Provider value={ctxValue}>
          {/* In react 19 you can use <CartContext> directly to wrap but before 19 version you need to use , CartContext.Provider it works in old and new versions */}
-        <Header
-          cart={shoppingCart}
-          onUpdateCartItemQuantity={handleUpdateCartItemQuantity}
-        />
+        <Header/>
         <Shop  >
           {DUMMY_PRODUCTS.map((product) => (
             <li key={product.id}>
-              <Product {...product} onAddToCart={handleAddItemToCart} />
+              <Product {...product}  />
             </li>
           ))}
         </Shop>
