@@ -7,11 +7,19 @@ import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
 import { sortPlacesByDistance } from './loc.js'
 
+// will only be execute when code file runs the first time, not on component rerenders
+const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+const storedPlaces = storedIds.map((id)=> AVAILABLE_PLACES.find(place=>place.id === id))
+
+
 function App() {
+
+  
+ 
   const modal = useRef();
   const selectedPlace = useRef();
   const [availablePlaces, setAvailablePlaces ] = useState([])
-  const [pickedPlaces, setPickedPlaces] = useState([]);
+  const [pickedPlaces, setPickedPlaces] = useState(storedPlaces);
 
   // this code will be executed by react after every component renders or execution finished
   // on component rerender , it will reexecute on the basis of dependency array , [] - no dependency , use effect will execute only onces
@@ -63,6 +71,9 @@ function App() {
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
     modal.current.close();
+
+    const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+    localStorage.setItem('selectedPlaces',JSON.stringify(storedIds.filter((id)=>id !== selectedPlace.current)))
   }
 
   return (
