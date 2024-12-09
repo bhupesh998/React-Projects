@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-function Modal({ open , children }) {
+function Modal({ open , children, onClose }) {
   const dialog = useRef();
 
   // another useCase for useEffect as without useEffect the code will give error as the modal is not there on app so even if open is false , we cannot call the method close on it as the modal is not there on page,
@@ -16,8 +16,8 @@ function Modal({ open , children }) {
 
 
   return createPortal(
-    <dialog className="modal" ref={dialog}>
-      {children}
+    <dialog className="modal" ref={dialog} onClose={onClose}>
+      {open ? children: null}
     </dialog>,
     document.getElementById('modal')
   );
