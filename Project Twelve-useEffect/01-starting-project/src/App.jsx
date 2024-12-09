@@ -10,18 +10,25 @@ import { sortPlacesByDistance } from './loc.js'
 function App() {
   const modal = useRef();
   const selectedPlace = useRef();
- // const [availablePlaces, setAvailablePlaces ] = setAvailablePlaces([])
+  const [availablePlaces, setAvailablePlaces ] = useState([])
   const [pickedPlaces, setPickedPlaces] = useState([]);
 
-  
+  // this code will be executed by react after every component renders or execution finished
+  // on component rerender , it will reexecute on the basis of dependency array , [] - no dependency , use effect will execute only onces
+  // if we don't specify dependency array it will execute again and again causing the infinite loop issue 
+  useEffect(() => {
+    //below is a side effect code , needed but not necessary
+    navigator.geolocation.getCurrentPosition((position) => {
+      const sortedPlaces = sortPlacesByDistance(AVAILABLE_PLACES, position.coords.latitude, position.coords.longitude);
 
-  //below is a side effect code , needed but not necessary
-  navigator.geolocation.getCurrentPosition((position)=>{
-    const sortedPlaces = sortPlacesByDistance(AVAILABLE_PLACES,position.coords.latitude, position.coords.longitude );
+      setAvailablePlaces(sortedPlaces) 
 
-   // setAvailablePlaces(sortedPlaces)  it will cause infinite loop as on setting places here component will rerender and on rerender the navigator code will again be called and same cycle of sorting and setting places repeat
+    })
+    
 
-  })
+  }, [])
+
+
 
   function handleStartRemovePlace(id) {
     modal.current.open();
@@ -75,7 +82,8 @@ function App() {
         />
         <Places
           title="Available Places"
-          places={AVAILABLE_PLACES}
+          places={availablePlaces}
+          fallbackText="Sorting Places by Distance"
           onSelectPlace={handleSelectPlace}
         />
       </main>
