@@ -1,9 +1,21 @@
-import { useEffect } from "react";
+import { useEffect , useState } from "react";
 
-
+const TIMER = 3000
 
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
 
+  const [remainingTime, setRemainingTime] = useState(TIMER)
+
+  useEffect(()=>{
+   const interval = setInterval(()=>{
+      setRemainingTime((prev)=> prev-100) // without useEffect this will also cause infinite loop as state update causes component rerender and that again call this state update and so on
+    }, 100)
+
+    return ()=>{
+      clearInterval(interval)
+    }
+  },[])
+  
 
   // here the useEffect is used for resetting the timer once it has executed or for clean up
   // with useEffect we can define a cleanup function that should be executed right before this effect function runs again or the component dismounts before its removed from dom
@@ -18,7 +30,7 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
       // handleRemovePlace() function and function in JS are just values, this function object handleRemovePlace() object is recreated every time APP component renders and in JS, no two objects are same as they have diffrent reference or address even with same value
       // when react looks at onConfirm and find that value are diffrent , so react will execute the component function even though dependency don't changed
       // this will cause issue if in that function we are updating state, that will cause rerender of components causing an infinite loop 
-    }, 3000)
+    }, TIMER)
 
 
     return ()=>{
@@ -39,6 +51,7 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
           Yes
         </button>
       </div>
+      <progress value={remainingTime} max={TIMER}/>
     </div>
   );
 }
