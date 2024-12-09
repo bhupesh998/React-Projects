@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 
 import Places from './components/Places.jsx';
 import { AVAILABLE_PLACES } from './data.js';
@@ -65,15 +65,19 @@ function App() {
   
   }
 
-  function handleRemovePlace() {
+// this hook will return the function such that the function object will not be created again and again , react stores it internally in memory
+// the dependency array takes state or props used in the function
+// this will help us extra safety to avoid infinite loop based on function object recreation on component rerender
+ const handleRemovePlace = useCallback( function handleRemovePlace() {
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
-    setShowModal(false)
+   setShowModal(false)
 
     const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
     localStorage.setItem('selectedPlaces',JSON.stringify(storedIds.filter((id)=>id !== selectedPlace.current)))
-  }
+  }, []);
+  
 
   return (
     <>
