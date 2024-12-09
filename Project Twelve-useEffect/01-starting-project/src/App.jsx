@@ -47,6 +47,15 @@ function App() {
       const place = AVAILABLE_PLACES.find((place) => place.id === id);
       return [place, ...prevPickedPlaces];
     });
+
+    // the below code is also a side effect code , it doesn't affect the component lifecycle and it just add data in browsers local storage
+    // because this code doesn't goes into infinite loop and doesn't execute on rerender and only executes when user selects a place 
+    // also useeffect cannot be used inside a function just like other hooks they can be used at root level of component
+    const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+    if(storedIds.indexOf(id)=== -1){
+      localStorage.setItem('selectedPlaces',JSON.stringify([id, ...storedIds]))
+    }
+  
   }
 
   function handleRemovePlace() {
