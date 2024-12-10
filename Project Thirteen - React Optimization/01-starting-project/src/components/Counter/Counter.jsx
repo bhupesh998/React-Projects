@@ -1,4 +1,4 @@
-import { useState, memo, useCallback} from 'react';
+import { useState, memo, useCallback, useMemo} from 'react';
 
 import IconButton from '../UI/IconButton.jsx';
 import MinusIcon from '../UI/Icons/MinusIcon.jsx';
@@ -38,12 +38,21 @@ function isPrime(number) {
 
 const Counter = memo(function Counter({ initialCount }) {
   log('<Counter /> rendered', 1);
-  const initialCountIsPrime = isPrime(initialCount);
+  // the below is prime is getting executed every time even when the value of inital count is not changing but state in counter changing 
+  // so react provides a hook to prevent execution of normal function that are called inside component function for which the result are not changing 
+  // so we use - useMemo for them and for component function we use - memo
+  // useMemo should only be used when you have a complex calculation to prevent
+  const initialCountIsPrime = useMemo(()=> isPrime(initialCount) , [initialCount])
+  // the above arrow function returns the result of function that we want to prevent from reexecuting i.e isPrime
+  // react will store the result of the execution and this will only re-execute if the dependency are changed
+  // also avoid it on using on evry function as its also adds performance cost like memo
+
 
   const [counter, setCounter] = useState(initialCount);
 
   const handleDecrement= useCallback(function handleDecrement() {
     setCounter((prevCounter) => prevCounter - 1);
+    // here we are not using any dependency , in dependency array as we are using state updating function and state updating function are guranteed to never change by react, therefore we don't need to add them in dependency array
   }, [])
 
   const handleIncrement = useCallback(function handleIncrement() {
