@@ -17,7 +17,8 @@ export default function Signup() {
       data.acquisitionChannel = acquisitionChannel
       console.log(data);
 
-      
+      // to reset programmatically
+     //  event.target.reset()
 
 
     }

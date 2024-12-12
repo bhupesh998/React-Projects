@@ -20,6 +20,7 @@ export default function Login() {
 
     console.log("email is=====>", enteredEmail, "password is======>", enteredPassword);
     
+  // this is the way to reset the form inputs we can create a seprate handler and reset all inputs in it 
    email.current.value ='' // will work but not recommended
     
     

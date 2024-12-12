@@ -58,6 +58,7 @@ export default function Login() {
       </div>
 
       <p className="form-actions">
+        { /* to reset using state we can call handler that sets the value to inital state , if we give type=reset it will automatically reset*/}
         <button className="button button-flat">Reset</button>
          {/* on hitting login, we see the handle submission gets called and page gets reloaded, default browser behavious for button in a form is those button will submit the form i.e an HTTP request is created and sent to server serving website */}
         {/* on network tab you can see the request so buttons like this login and reset in form will generate those request and sent those request to server */}
