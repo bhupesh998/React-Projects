@@ -24,10 +24,20 @@ export default function Login() {
     "password": ""
   })
 
-  const isInvalidEmail = enteredValues.email !=="" && !enteredValues.email.includes("@")
+  const [didEdit , setDidEdit] = useState({
+    email: false,
+    password: false
+  })
+
+//  const isInvalidEmail = enteredValues.email !=="" && !enteredValues.email.includes("@") - in this way if we enter a value and erase it all we don't get error and also if we enter first character we get error but we are still writing 
+// so other way is using onBlur
+
+const isInvalidEmail = didEdit.email && !enteredValues.email.includes("@")
+
 
   function handleInputChange(key, value){
     setEnteredValues((prev)=>({ ...prev, [key]: value}))
+    setDidEdit((prev)=>({ ...prev, [key]: false})) // doing this for case where user is again back on the error input field and is typing again
   }
 
 
@@ -40,6 +50,10 @@ export default function Login() {
     
   }
 
+  function handleInputBlur(identifier ){
+    setDidEdit((prev)=> ({...prev, [identifier]: true}))
+  }
+
    
 
   return (
@@ -50,13 +64,13 @@ export default function Login() {
       <div className="control-row">
         <div className="control no-margin">
           <label htmlFor="email">Email</label>
-          <input id="email" type="email" name="email" onChange={(e)=> handleInputChange('email', e.target.value)} value={enteredValues.email} />
+          <input id="email" type="email" name="email" onChange={(e)=> handleInputChange('email', e.target.value)} value={enteredValues.email} onBlur={()=>handleInputBlur('email')}/>
             <div className="control-error">{isInvalidEmail && <p>please enter a valid email</p>}</div>
         </div>
 
         <div className="control no-margin">
           <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" onChange={(e)=> handleInputChange('password', e.target.value)} value={enteredValues.password} />
+          <input id="password" type="password" name="password" onChange={(e)=> handleInputChange('password', e.target.value)} value={enteredValues.password} onBlur={()=>handleInputBlur('password')}/>
         </div>
       </div>
 
