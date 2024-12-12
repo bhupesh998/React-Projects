@@ -1,5 +1,8 @@
+import { useState } from "react"
+
 export default function Signup() {
 
+    const [ passwordNotEqual, setPasswordNotEqual] = useState(false)
     
     function handleSubmission(event){
         event.preventDefault()
@@ -15,6 +18,11 @@ export default function Signup() {
       const data = Object.fromEntries(formData.entries())
       // when using formData.entries(), the multi select values get lost 
       data.acquisitionChannel = acquisitionChannel
+
+      if(data.password !== data['confirm-password']){
+        setPasswordNotEqual(true)
+        return
+      }
       console.log(data);
 
       // to reset programmatically
@@ -47,7 +55,8 @@ export default function Signup() {
               type="password"
               name="confirm-password"
             />
-          </div>
+            <div className="control-error">{passwordNotEqual && <p>Password and confirm password don't match</p>}</div>
+          </div>    
         </div>
   
         <hr />
