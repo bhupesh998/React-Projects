@@ -45,6 +45,8 @@ const isInvalidEmail = didEdit.email && !enteredValues.email.includes("@")
     // calling handleSubmission , onSubmit , will give us a special method with event i.e 
     event.preventDefault() // it prevents default browser behaviour of generating and sending http request
     console.log("login clicked");
+    //also a good idea to check here or validate submitted values because we are giving error to user on every keysatroke but if user ignores that and submit the form than to handle such cases handling is necessary here
+    
     console.log("userEmail=====>", enteredValues);
     
     
