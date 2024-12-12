@@ -1,39 +1,26 @@
-import { useState } from "react";
+import { useRef } from "react";
 
 
 
 export default function Login() {
 
-  /*
-  if we have many input tags on form then this individual state maintainance becomes hard
-  const [ enteredEmail , setEnteredEmail] = useState('')
-  const [ enteredPassword , setEnteredPassword] = useState('')
-
-  function handleEmailChange(event){
-    setEnteredEmail(event.target.value)
-  }
-
-  function handlePasswordChange(event){
-    setEnteredPassword(event.target.value)
-  }
-
-  */
-
-  const [enteredValues, setEnteredValues] = useState({
-    "email" : "",
-    "password": ""
-  })
-
-  function handleInputChange(key, value){
-    setEnteredValues((prev)=>({ ...prev, [key]: value}))
-  }
-
+  
+  /*advantage of using ref for handling values for form is less code to be written no change handler to called or no state to be maintained */
+  // the disadvantage is resetting the values in clean way is harder because it is discouraged to useRef for manipulating DOM, and will need lot of refs for long forms
+  const email = useRef()
+  const password = useRef()
 
   function handleSubmission(event){
     // calling handleSubmission , onSubmit , will give us a special method with event i.e 
     event.preventDefault() // it prevents default browser behaviour of generating and sending http request
     console.log("login clicked");
-    console.log("userEmail=====>", enteredValues);
+
+    const enteredEmail = email.current.value
+    const enteredPassword = password.current.value
+
+    console.log("email is=====>", enteredEmail, "password is======>", enteredPassword);
+    
+   email.current.value ='' // will work but not recommended
     
     
   }
@@ -48,12 +35,12 @@ export default function Login() {
       <div className="control-row">
         <div className="control no-margin">
           <label htmlFor="email">Email</label>
-          <input id="email" type="email" name="email" onChange={(e)=> handleInputChange('email', e.target.value)} value={enteredValues.email} />
+          <input id="email" type="email" name="email" ref={email}/>
         </div>
 
         <div className="control no-margin">
           <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" onChange={(e)=> handleInputChange('password', e.target.value)} value={enteredValues.password} />
+          <input id="password" type="password" name="password" ref={password}/>
         </div>
       </div>
 
