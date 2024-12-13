@@ -1,4 +1,28 @@
+import { useContext } from "react";
+import { OpinionsContext } from "../store/opinions-context";
+import { useActionState } from "react";
+
+
+// formaction not only canb be set on form by action attribute instead we can also use it on button using formAction
 export function Opinion({ opinion: { id, title, body, userName, votes } }) {
+
+  const { upvoteOpinion, downvoteOpinion } = useContext(OpinionsContext)
+  const [upFormState, upFormAction, UpPending] = useActionState(upVoteAction, null)
+  const [downFormState, downFormAction, downPending] = useActionState(downVoteAction, null)
+
+  async function upVoteAction(){
+    console.log("upvote");
+    await upvoteOpinion(id)
+  }
+
+  async function downVoteAction(){
+    console.log("downVote");
+    await downvoteOpinion(id)
+  }
+
+
+
+
   return (
     <article>
       <header>
@@ -7,7 +31,7 @@ export function Opinion({ opinion: { id, title, body, userName, votes } }) {
       </header>
       <p>{body}</p>
       <form className="votes">
-        <button>
+        <button formAction={upFormAction} disabled={UpPending || downPending}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -27,7 +51,7 @@ export function Opinion({ opinion: { id, title, body, userName, votes } }) {
 
         <span>{votes}</span>
 
-        <button>
+        <button formAction={downFormAction} disabled={UpPending || downPending}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

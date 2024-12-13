@@ -69,7 +69,7 @@ export function NewOpinion() {
           { formState.errors.map((error)=> (<li key={error}>{error}</li>))}
           </ul>}
 
-        <Submit />
+        <Submit /> 
       </form>
     </div>
   );
