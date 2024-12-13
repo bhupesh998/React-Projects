@@ -86,11 +86,12 @@ app.post('/opinions/:id/upvote', async (req, res) => {
   const { id } = req.params;
   await new Promise((resolve) => setTimeout(resolve, 1000));
   try {
-    const opinion = await upvoteOpinion(Number(id));
-    if (!opinion) {
-      return res.status(404).json({ error: 'Opinion not found.' });
-    }
-    res.json(opinion);
+    res.status(500).end()
+    // const opinion = await upvoteOpinion(Number(id));
+    // if (!opinion) {
+    //   return res.status(404).json({ error: 'Opinion not found.' });
+    // }
+    // res.json(opinion);
   } catch (error) {
     res.status(500).json({ error: 'Error upvoting opinion.' });
   }

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { OpinionsContext } from "../store/opinions-context";
 import { useActionState } from "react";
+import { useOptimistic } from "react";
 
 
 // formaction not only canb be set on form by action attribute instead we can also use it on button using formAction
@@ -10,13 +11,24 @@ export function Opinion({ opinion: { id, title, body, userName, votes } }) {
   const [upFormState, upFormAction, UpPending] = useActionState(upVoteAction, null)
   const [downFormState, downFormAction, downPending] = useActionState(downVoteAction, null)
 
+  // it takes value that needs to be updated optimistically and a callback function
+  // the setOptimisticVotes can be called in any formaction 
+  // optimisticVotes is a temporary state that will render on UI while the form is being submitted thereafter this state will be thrown away
+  // and the original UI state will get render
+  const [optimisticVotes, setOptimisticVotes] = useOptimistic(votes, (prevVotes, mode)=>{
+    return mode==='up'? prevVotes+1 : prevVotes-1
+  })
+
   async function upVoteAction(){
     console.log("upvote");
+    setOptimisticVotes('up')
     await upvoteOpinion(id)
   }
 
   async function downVoteAction(){
+
     console.log("downVote");
+    setOptimisticVotes('down')
     await downvoteOpinion(id)
   }
 
@@ -49,7 +61,8 @@ export function Opinion({ opinion: { id, title, body, userName, votes } }) {
           </svg>
         </button>
 
-        <span>{votes}</span>
+      { /* optimisticVotes is a tempory state that will get overridden based on original state*/}
+        <span>{optimisticVotes}</span>
 
         <button formAction={downFormAction} disabled={UpPending || downPending}>
           <svg
