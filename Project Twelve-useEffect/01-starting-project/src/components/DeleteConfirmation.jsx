@@ -1,21 +1,10 @@
-import { useEffect , useState } from "react";
+import { useEffect  } from "react";
+import ProgressBar from "./ProgressBar";
 
 const TIMER = 3000
 
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
 
-  const [remainingTime, setRemainingTime] = useState(TIMER)
-
-  useEffect(()=>{
-   const interval = setInterval(()=>{
-      setRemainingTime((prev)=> prev-100) // without useEffect this will also cause infinite loop as state update causes component rerender and that again call this state update and so on
-    }, 100)
-
-    return ()=>{
-      clearInterval(interval)
-    }
-  },[])
-  
 
   // here the useEffect is used for resetting the timer once it has executed or for clean up
   // with useEffect we can define a cleanup function that should be executed right before this effect function runs again or the component dismounts before its removed from dom
@@ -51,7 +40,9 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
           Yes
         </button>
       </div>
-      <progress value={remainingTime} max={TIMER}/>
+      {/* seprated the progressBar component because we were updating state every 100ms causing the delete confirmation component to rerender , in that react had to check for other things in delete confirmation
+       for change , whether to run useEffect or onconfirm has changed or not or entire code or jsx of delete confirmation */}
+      <ProgressBar TIMER={TIMER} />
     </div>
   );
 }
