@@ -3,6 +3,7 @@ import { Fragment, Component } from 'react';
 import Users from './Users';
 import classes from './UserFinder.module.css';
 import UserContext from '../store/context';
+import ErrorBoundary from './ErrorBoundary';
 
 
 // const UserFinder = () => {
@@ -35,34 +36,34 @@ class UserFinder extends Component {
     // whereas in class based components you can only connect the component to one context
     static contextType = UserContext
 
-    constructor(){
+    constructor() {
         super()
-        this.state ={
-            filteredUsers : [],
-            searchTerm : ""
+        this.state = {
+            filteredUsers: [],
+            searchTerm: ""
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         // you can send http request , like here when our componets renders users are empty and we can set here assuming data is coming from servers
         // it will only run once 
-        this.setState({filteredUsers: this.context.users})
+        this.setState({ filteredUsers: this.context.users })
     }
 
 
-    componentDidUpdate(prevProps, prevState){
+    componentDidUpdate(prevProps, prevState) {
 
-        if(prevState.searchTerm !== this.state.searchTerm){
-             // below code will cause an infinte loop because we are setting state that will cause component to rerender and on rerender this will be executed again and again
-             // to avoid this we are checking old search term and new serach term are not equal
-             // In useEffect we can specify the dependcy and only on its change that exeutes but here we need to implement checks
-        this.setState({ filteredUsers: this.context.users.filter((user) => user.name.includes(this.state.searchTerm)) })
+        if (prevState.searchTerm !== this.state.searchTerm) {
+            // below code will cause an infinte loop because we are setting state that will cause component to rerender and on rerender this will be executed again and again
+            // to avoid this we are checking old search term and new serach term are not equal
+            // In useEffect we can specify the dependcy and only on its change that exeutes but here we need to implement checks
+            this.setState({ filteredUsers: this.context.users.filter((user) => user.name.includes(this.state.searchTerm)) })
         }
-       
+
     }
 
     searchChangeHandler = (event) => {
-            this.setState({searchTerm: event.target.value})
+        this.setState({ searchTerm: event.target.value })
     };
 
     render() {
@@ -71,9 +72,11 @@ class UserFinder extends Component {
                 <div className={classes.finder}>
                     <input type='search' onChange={this.searchChangeHandler.bind(this)} />
                 </div>
-                <Users users={this.state.filteredUsers} />
+                <ErrorBoundary >
+                    <Users users={this.state.filteredUsers} />
+                </ErrorBoundary>
             </Fragment>
-          
+
         );
     }
 }

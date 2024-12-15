@@ -44,6 +44,16 @@ class Users extends Component {
     }
   }
 
+  componentDidUpdate(){
+    // this error will bubble up and crash my application like when searching for users that is not present
+    // in reqgular JS we use try catch to prevent errors, to prevent app from crashing
+    // but if we want to handle originating from child to parent then we cannot use try catch
+    // like in parent <Users /> component will be generating an error and that is a JSX code and not a regular JS code
+    if(this.props.users.length === 0){
+      throw new Error("NO Users Present")
+    }
+  }
+
   toggleUsersHandler(){
    // this.state.showUsers = false  - not the way to do 
    // this.setState also takes an object , this object will have the new state but it will not overrider the new state instead react will merge the old and new objects
