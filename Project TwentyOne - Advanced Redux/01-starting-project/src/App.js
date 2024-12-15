@@ -21,21 +21,11 @@ function App() {
   useEffect(()=>{
 
     async function sendCartData(){
-      dispatch(uiAction.setNotification({status: 'pending', title:"Sending..", message: "Sending Cart Data"}))
-     const response = await fetch('backendUrl',{
-        method: "PUT",
-        body: JSON.stringify(cart)
-      })
-
-      if(!response.ok){
-        throw new Error("Sending Cart Data Failed")
-       
-
-      }
+     
+     
 
       
-      dispatch(uiAction.setNotification({status: 'success', title:"sent..", message: "Sent Cart Data"}))
-    }
+        }
 
     if(isIntial){
       isIntial = false // this is used so that first time when app start no request goes to backend
