@@ -14,6 +14,10 @@ const Products = () => {
       <ul>
         {PRODUCTS.map((item)=>(<li key={item.id}><Link to={`/products/${item.id}`}>{item.title}</Link></li>))}
       </ul>
+      Products Page with Relative Path
+      <ul>
+        {PRODUCTS.map((item)=>(<li key={item.id}><Link to={item.id}>{item.title}</Link></li>))}
+      </ul>
     </div>
   )
 }
