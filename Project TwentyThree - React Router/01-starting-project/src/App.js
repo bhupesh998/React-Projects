@@ -3,6 +3,7 @@ import Home from "./components/Home";
 import Products from "./components/Products";
 import Root from "./components/Root"
 import Error from "./components/Error";
+import ProductDetail from "./components/ProductDetail";
 
 /*
 // create route definition and provide to create browser router
@@ -28,7 +29,8 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/products", element: <Products /> }
+      { path: "/products", element: <Products /> },
+      { path: "/products/:productId", element: <ProductDetail /> }
     ]
   }
   // we can also add multiple root layout and their children based on the application we have 
