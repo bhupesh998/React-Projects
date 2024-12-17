@@ -7,9 +7,9 @@ import EventsList from '../components/EventsList';
 function EventsPage() {
  
   const data = useLoaderData()
-  if(data.isError){
-    return <p>{data.message}</p>
-  }
+  // if(data.isError){
+  //   return <p>{data.message}</p>
+  // }
   const events = data.events
 
   return (
@@ -35,7 +35,10 @@ export  const loader = async () => {
 
   // in loader we can also return a response object 
   if (!response.ok) {
-   return { isError: true, message: "Failed To Fetch Data"}
+   // return { isError: true, message: "Failed To Fetch Data"}
+
+   // when error gets thrown in a loader then react router simply render the closest error element
+   throw { message: "Failed To Fetch Data"}
   } else {
     /*
     const resData = await response.json();
