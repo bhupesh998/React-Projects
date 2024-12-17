@@ -7,6 +7,9 @@ import EventsList from '../components/EventsList';
 function EventsPage() {
  
   const data = useLoaderData()
+  if(data.isError){
+    return <p>{data.message}</p>
+  }
   const events = data.events
 
   return (
@@ -21,6 +24,8 @@ function EventsPage() {
 
 export default EventsPage;
 
+// the code defined in the loader will execute on browser and not server, so you can use any browser api's in your loader
+// you can use localstorage , session storage , cookies etc but you cannot use react hooks in it because its available on react component and loader is not a react component
 export  const loader = async () => {
   // this function will be execute by react router when you are about to visit this route
   // just before this route e.g <EventsPage/> gets render this loader will be executed by react router
@@ -30,7 +35,7 @@ export  const loader = async () => {
 
   // in loader we can also return a response object 
   if (!response.ok) {
-   
+   return { isError: true, message: "Failed To Fetch Data"}
   } else {
     /*
     const resData = await response.json();
