@@ -1,19 +1,21 @@
-import React from 'react'
-import { Link} from 'react-router-dom'
 
-const EVENTS = [
-    { id: "p1", title: "Product 1"},
-    { id: "p2", title: "Product 2"},
-    { id: "p3", title: "Product 3"},
-  ]
 
-const EventsPage = () => {
+import { useLoaderData } from 'react-router-dom';
+import EventsList from '../components/EventsList';
+
+//currently we render page and then update data but react router helps us to get data first and then render it
+function EventsPage() {
+ 
+  const events = useLoaderData()
+
   return (
-    <div>
-       {EVENTS.map((item)=>(<li key={item.id}><Link to={`/events/${item.id}`}>{item.title}</Link></li>))}
-     
-    </div>
-  )
+    <>
+    
+      <EventsList events={events} />
+      {/* Also we can use, useLoaderData in EventList directly as well instead of passing events props */}
+      {/* <EventsList/> */}
+    </>
+  );
 }
 
-export default EventsPage
+export default EventsPage;
