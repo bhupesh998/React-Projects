@@ -6,7 +6,8 @@ import EventsList from '../components/EventsList';
 //currently we render page and then update data but react router helps us to get data first and then render it
 function EventsPage() {
  
-  const events = useLoaderData()
+  const data = useLoaderData()
+  const events = data.events
 
   return (
     <>
@@ -19,3 +20,34 @@ function EventsPage() {
 }
 
 export default EventsPage;
+
+export  const loader = async () => {
+  // this function will be execute by react router when you are about to visit this route
+  // just before this route e.g <EventsPage/> gets render this loader will be executed by react router
+  // in this loader function we can load and fetch our data
+
+  const response = await fetch('http://localhost:8080/events');
+
+  // in loader we can also return a response object 
+  if (!response.ok) {
+   
+  } else {
+    /*
+    const resData = await response.json();
+  // return resData.events //whatever we return in this function , react router will take the data and make that available in that element page in our case its <EventPage />
+   //also the returned data will be a promise technically so react router will check the data for us and return the resolve data to the component page 
+
+   // whenever returning any response from loader the react router will automatically extract the data from the response when using useLoaderData
+   // why we need this if we can return resdata.events directly , because we are using fetch api and it returns a promise of type response so we can directly return that response instead of checking and handling data by yourself
+   const res = Response(resData.events, {
+    status: 201
+   }) 
+  return res
+
+  */
+
+  return response
+  }
+
+
+}
