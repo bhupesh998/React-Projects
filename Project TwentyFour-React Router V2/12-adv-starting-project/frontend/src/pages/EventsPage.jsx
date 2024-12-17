@@ -38,7 +38,10 @@ export  const loader = async () => {
    // return { isError: true, message: "Failed To Fetch Data"}
 
    // when error gets thrown in a loader then react router simply render the closest error element
-   throw { message: "Failed To Fetch Data"}
+   //throw { message: "Failed To Fetch Data"}
+
+   // throwing a response for an error help us to build more geenric handler as we can give properties that we can utilise in the error handling components
+   throw new Response(JSON.stringify({"message": "could not fetch data"}), {status: 500})
   } else {
     /*
     const resData = await response.json();
