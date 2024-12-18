@@ -11,12 +11,12 @@ const Error = () => {
   let title = "An Error Occured"
   let message = "Something went Wrong"
 
-  if(error.status == 500){
+  if(error.status === 500){
    message = JSON.parse(error.data).message
   }
 
 
-  if(error.status == 404){
+  if(error.status === 404){
     title="Not Found"
     message="Resource Could Not be Found"
   }
