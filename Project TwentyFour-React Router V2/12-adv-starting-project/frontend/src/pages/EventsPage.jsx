@@ -1,33 +1,39 @@
 
 
-import { useLoaderData } from 'react-router-dom';
+import { Await, useLoaderData } from 'react-router-dom';
 import EventsList from '../components/EventsList';
+import { Suspense } from 'react';
 
 //currently we render page and then update data but react router helps us to get data first and then render it
 function EventsPage() {
  
-  const data = useLoaderData()
+  const {events } = useLoaderData()
   // if(data.isError){
   //   return <p>{data.message}</p>
   // }
-  const events = data.events
+  
 
   return (
     <>
-    
-      <EventsList events={events} />
+    <Suspense fallback={<p>Loading from suspense</p>} >
+      <Await resolve={events}>
+      { (loadedEvents) => <EventsList events={loadedEvents} />}
+      {/* <EventsList events={events} /> */}
       {/* Also we can use, useLoaderData in EventList directly as well instead of passing events props */}
       {/* <EventsList/> */}
+      </Await>
+    </Suspense>
+    
+      
     </>
   );
 }
 
 export default EventsPage;
 
-// the code defined in the loader will execute on browser and not server, so you can use any browser api's in your loader
-// you can use localstorage , session storage , cookies etc but you cannot use react hooks in it because its available on react component and loader is not a react component
-export  const loader = async () => {
-  // this function will be execute by react router when you are about to visit this route
+
+async function loadEvents(){
+   // this function will be execute by react router when you are about to visit this route
   // just before this route e.g <EventsPage/> gets render this loader will be executed by react router
   // in this loader function we can load and fetch our data
 
@@ -56,8 +62,17 @@ export  const loader = async () => {
   return res
 
   */
+    const resData = await response.json()
+    return resData.events
+  }
+}
 
-  return response
+// the code defined in the loader will execute on browser and not server, so you can use any browser api's in your loader
+// you can use localstorage , session storage , cookies etc but you cannot use react hooks in it because its available on react component and loader is not a react component
+export  const loader = async () => {
+ 
+  return {
+    events: loadEvents()
   }
 
 
