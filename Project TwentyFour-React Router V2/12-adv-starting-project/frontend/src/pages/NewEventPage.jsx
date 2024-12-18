@@ -38,9 +38,21 @@ export const action =async ({ request, params })=>{
 
   })
 
+  console.log("response.status", response.status);
+  
+
+  if(response.status === 422){
+    // i am not redirecting to a diffrent page or throwing an error 
+    // just as we can return a response in our loader and use that response in our component and pages, we can also use return response from action also
+    return response
+    // this response is automatically formatted by react router for us
+  }
+
   if (!response.ok) {
   
-    throw new Response(JSON.stringify({"message": "could not fetch data"}), {status: 500})
+    // now if i want to show validation error on the input page instead of redirecting the user to a error page 
+     throw new Response(JSON.stringify({"message": "could not fetch data"}), {status: 500}) //this will return  error page
+
    } 
 
    // function by react router and creates a response object that simple redirects the user to a diffrent page
