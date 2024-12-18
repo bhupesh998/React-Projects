@@ -5,7 +5,7 @@ import { redirect } from 'react-router-dom'
 const NewEventPage = () => {
   return (
    
-      <EventForm />
+      <EventForm method="post"/>
     
   )
 }
@@ -13,6 +13,8 @@ const NewEventPage = () => {
 export default NewEventPage
 
 export const action =async ({ request, params })=>{
+
+  const method = request.method
 
   // REACT router also helps  us in handling form data and helps in extracting the form data 
   // make sure all inputs have the name attribute because they will be used to extract data 
@@ -29,8 +31,15 @@ export const action =async ({ request, params })=>{
 
   }
 
- const response = await fetch(`http://localhost:8080/events`, {
-    method: "POST",
+  let url = `http://localhost:8080/events`
+  if(method === "PATCH"){
+    const id = params.id
+    url = `http://localhost:8080/events/` +id
+  }
+
+
+ const response = await fetch(url, {
+    method: method,
     headers: {
       "Content-Type": "application/json"
     },

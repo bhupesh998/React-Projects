@@ -3,10 +3,11 @@ import Root from "./pages/Root";
 import HomePage from "./pages/HomePage";
 import EventsPage, { loader as eventPageLoader } from "./pages/EventsPage";
 import EventDetailPage, { action as deleteEventAction, loader  as eventDetailLoader} from "./pages/EventDetailPage";
-import NewEventPage, { action as saveAction } from "./pages/NewEventPage";
+import NewEventPage, { action as saveActionWithEdit } from "./pages/NewEventPage";
 import EditEventPage from "./pages/EditEventPage";
 import EventsRoot from "./pages/EventsRoot";
 import Error from "./pages/Error";
+import NewsletterPage, { action as  newsletterAction } from "./components/NewsLetter";
 
 
 const router = createBrowserRouter([
@@ -26,15 +27,20 @@ const router = createBrowserRouter([
             id: "event-detail",
             children: [
               { index: true, element: <EventDetailPage />, action: deleteEventAction },
-              { path: "edit", element: <EditEventPage /> }
+              { path: "edit", element: <EditEventPage /> , action: saveActionWithEdit}
             ],
             loader: eventDetailLoader
           },
          
-          { path: "new", element: <NewEventPage />, action: saveAction },
+          { path: "new", element: <NewEventPage />, action: saveActionWithEdit },
          
         ]
-      }
+      },
+      {
+        path: 'newsletter',
+        element: <NewsletterPage />,
+        action: newsletterAction,
+      },
 
     ]
   }
