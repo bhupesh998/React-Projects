@@ -11,7 +11,7 @@ const Root = () => {
   const navigation = useNavigation()
   
   return (
-    <div>
+    <>
       <MainNavigation />
       <main>
       
@@ -19,9 +19,9 @@ const Root = () => {
       the loading comoonent will be added to visible page and not the page that we are visiting , instead it will show up on page from which we are transitioning or that is visible
        { navigation.state == "loading" && <p>Loading........</p>}
        */}
-      <p><Outlet/></p>
+      <Outlet/>
       </main>
-    </div>
+   </>
   )
 }
 

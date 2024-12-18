@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRouteLoaderData } from 'react-router-dom'
+import { redirect, useRouteLoaderData } from 'react-router-dom'
 import EventItem from '../components/EventItem'
 
 const EventDetailPage = () => {
@@ -7,10 +7,9 @@ const EventDetailPage = () => {
   const data = useRouteLoaderData('event-detail')
     
   return (
-    <div>
+    
       <EventItem event={data.event}/>
-      
-    </div>
+
   )
 }
 
@@ -29,4 +28,21 @@ export const loader = async ({ request , params})=>{
     return response
   }
   
+}
+
+
+export const action = async({request, params})=>{
+
+  const id = params.id
+
+  const response = await fetch("http://localhost:8080/events/"+id, {
+    method: request.method
+  })
+
+
+  if(!response.ok){
+    throw new Response(JSON.stringify({"message": "could not delete data"}), {status: 500})
+  }
+
+  return redirect('/events')
 }

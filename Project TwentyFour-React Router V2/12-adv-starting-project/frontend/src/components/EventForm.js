@@ -9,7 +9,9 @@ function EventForm({ method, event }) {
   }
 
   return (
-    <Form  method="post" className={classes.form}>
+    // if we use the action property on form then the action function of another route path would be triggered that is specifed in the action property
+    // if not using that it will trigger the action function of currently active route
+    <Form  method="post" action="/any-other-path" className={classes.form}>
       <p>
         <label htmlFor="title">Title</label>
         <input id="title" type="text" name="title" required defaultValue={event ? event.title: ""}/>

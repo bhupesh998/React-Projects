@@ -4,9 +4,9 @@ import { redirect } from 'react-router-dom'
 
 const NewEventPage = () => {
   return (
-    <div>
+   
       <EventForm />
-    </div>
+    
   )
 }
 
