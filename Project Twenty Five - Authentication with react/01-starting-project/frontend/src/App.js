@@ -14,12 +14,17 @@ import RootLayout from './pages/Root';
 import { action as manipulateEventAction } from './components/EventForm';
 import NewsletterPage, { action as newsletterAction } from './pages/Newsletter';
 import AuthenticationPage, { action as authAction } from './pages/Authentication';
+import { action as LogOutAction } from './pages/Logout';
+import { tokenLoader } from './util/auth';
+
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
     errorElement: <ErrorPage />,
+    id:"root",
+    loader: tokenLoader, // any request submitted after this route will have access to this loader or this loader will run for every request passing afdter the root route
     children: [
       { index: true, element: <HomePage /> },
       {
@@ -65,6 +70,13 @@ const router = createBrowserRouter([
         element: <NewsletterPage />,
         action: newsletterAction,
       },
+      {
+        path: 'logout',
+        action: LogOutAction
+        // to update the UI features based on availability of token , i need the token access in all
+        // my app instead of some functions and if token doesn't exist the UI should be updated
+        // we can use react content for this but we have a solution with react-router also using loader property on root route
+      }
     ],
   },
 ]);
