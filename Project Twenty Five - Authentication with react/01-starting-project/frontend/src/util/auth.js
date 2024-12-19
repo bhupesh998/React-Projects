@@ -13,7 +13,7 @@ export function getAuthToken(){
     const duration = getTokenDuration()
 
     if(!token){
-        return;
+        return null
     }
 
     if(duration < 0){

@@ -18,7 +18,7 @@ function RootLayout() {
     }
 
     if(token === 'EXPIRED'){
-      submit(null , { action: '/logout', method: "POST"})
+      submit(null , { action: '/logout', method: "post"})
       return ;
     }
 

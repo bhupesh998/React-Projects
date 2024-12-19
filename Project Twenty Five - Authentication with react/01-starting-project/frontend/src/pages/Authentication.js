@@ -10,20 +10,28 @@ export default AuthenticationPage;
 export const action = async ({ request, params})=> {
 
   // constructor given by browser
-  const searchParams = new URL(request.url).searchParams()
+  
+  const searchParams = new URL(request.url).searchParams
   const mode = searchParams.get('mode') || 'login'
+  
+  
 
   if(mode !=="login" && mode !== "signup"){
     throw new Error("mode not supported")
   }
 
   const data = await request.formData()
+  console.log("data", data);
+  
   const authData = {
     email : data.get('email'),
     password: data.get('password')
   }
 
-  const response = fetch('http://localhost:8080/'+ mode, {
+  console.log("authData", authData);
+  
+
+  const response = await fetch('http://localhost:8080/'+ mode, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -40,6 +48,9 @@ export const action = async ({ request, params})=> {
     throw new Response({message : "Could not authenticate user"}, {status: 500})
   }
 
+  console.log("response is", response);
+  
+
   const resData = await response.json()
   const token = resData.token
 
@@ -48,6 +59,8 @@ export const action = async ({ request, params})=> {
   expiration.setHours(expiration.getHours()+1)
   localStorage.setItem('tokenExp', expiration.toISOString())
 
-  redirect('/')
+  console.log("going to redirect");
+  
+  return redirect('/')
 
 }

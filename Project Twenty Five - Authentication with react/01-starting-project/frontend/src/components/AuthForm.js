@@ -6,14 +6,18 @@ import classes from './AuthForm.module.css';
 function AuthForm() {
   const [ searchParams, setSearchParams] = useSearchParams()
   const isLogin = searchParams.get('mode') === 'login'
+  console.log("isLogin", isLogin);
+  
   const data = useActionData()
   const navigation = useNavigation()
 
   const isSubmitting = navigation.state==='submitting'
+  
 
   return (
     <>
-      <Form method="post" className={classes.form}>
+      
+      <Form method="POST" className={classes.form}>
         <h1>{isLogin ? 'Log in' : 'Create a new user'}</h1>
         { data && data.errors && <ul>
           { Object.values(data.errors).map((err)=><li key={err}>{err}</li>)}
