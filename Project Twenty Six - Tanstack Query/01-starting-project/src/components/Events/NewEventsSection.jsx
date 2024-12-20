@@ -1,52 +1,36 @@
 import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query'
 
 import LoadingIndicator from '../UI/LoadingIndicator.jsx';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
 import EventItem from './EventItem.jsx';
+import { fetchEvents } from '../../util/http.js';
 
 export default function NewEventsSection() {
-  const [data, setData] = useState();
-  const [error, setError] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  
+  // this hook will now send an http request behind the scenees and gets us the data and also gives information about loading state
+  // tanstack query doesn't come with a built in logic to send HTTP request instead it comes with a logic for managing those request
+  // for keeping track of the data and possible errors that are yeilded by these requests and so on, the code from sending the request must come from your side
 
-  useEffect(() => {
-    async function fetchEvents() {
-      setIsLoading(true);
-      const response = await fetch('http://localhost:3000/events');
+  const {data , isPending, isError , error } = useQuery({
+    // it wants a function that returns a promise, so the function will be executed to get my data 
+    queryFn : fetchEvents,
+    // this key will be used by tanstack to cache the data that will be returned with the help of this key so reponse from same request can be used again if you try to send same request again
+    // this key is an array, an array of values that are internally stored by react query such that when you are using a similar array of values, react query sees that and is able to reuse existing data 
+    // you can also have objects, arrays or nested array or other kind of values in it
+    queryKey: ['events']
+  })
 
-      if (!response.ok) {
-        const error = new Error('An error occurred while fetching the events');
-        error.code = response.status;
-        error.info = await response.json();
-        throw error;
-      }
-
-      const { events } = await response.json();
-
-      return events;
-    }
-
-    fetchEvents()
-      .then((events) => {
-        setData(events);
-      })
-      .catch((error) => {
-        setError(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
-
+ 
   let content;
 
-  if (isLoading) {
+  if (isPending) {
     content = <LoadingIndicator />;
   }
 
-  if (error) {
+  if (isError) {
     content = (
-      <ErrorBlock title="An error occurred" message="Failed to fetch events" />
+      <ErrorBlock title="An error occurred" message={error.info?.message || "Failed To Fetch Events"} />
     );
   }
 
