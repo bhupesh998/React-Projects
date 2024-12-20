@@ -47,6 +47,9 @@ const queryClient = new QueryClient()
 //some advantyages
 // if we change the tab and come back to our app then it automatically processes and fetches the data , we don't need to explicityly send the request to backend
 // in case data is changed on backend then it also sends the request to fetch the data 
+// react query caches the data , except images as they are fetched by their link and browser fetches it
+// it caches the data  for a query key and if find that same request is being made by the query key then it will use cached data but also sends a request to backend to check if data is updated and if its updated it will replace old data will new data 
+// being able to control how long data is kept around and when new request will be sent
 function App() {
 
   return <QueryClientProvider client={queryClient}>

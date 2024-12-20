@@ -18,7 +18,13 @@ export default function NewEventsSection() {
     // this key will be used by tanstack to cache the data that will be returned with the help of this key so reponse from same request can be used again if you try to send same request again
     // this key is an array, an array of values that are internally stored by react query such that when you are using a similar array of values, react query sees that and is able to reuse existing data 
     // you can also have objects, arrays or nested array or other kind of values in it
-    queryKey: ['events']
+    queryKey: ['events'],
+    //this staleTime property control after which time react query will send such a behind the scenes request to get updated data if it found data in your cache and default is 0
+    // it means it will use cacche data but always sends a request to get behind the scenes request to get updated data
+    staleTime : 5000, // it will wait for 5000 milliseconds to send the request
+
+    // garbage collection time, how long the data and cache will be kept around, default here is 5 minutes
+    gcTime: 30000
   })
 
  
