@@ -4,13 +4,18 @@ export const queryClient = new QueryClient()
 
 // we are destructring the object now that is coming to this fetchEvents function from queryFn by useQuery
 // for searchTerm we can use the name but in queryFn i should pass the object with same key
-export async function fetchEvents({ signal, searchTerm}) {
+export async function fetchEvents({ signal, searchTerm, max}) {
 
     console.log("searchTerm", searchTerm);
     
     let url='http://localhost:3000/events'
-    if(searchTerm){
+
+    if(searchTerm && max){
+      url += '?search='+ searchTerm +'&max='+max
+    }else if(searchTerm){
         url += '?search='+ searchTerm
+    }else if(max){
+      url+= '?max='+ max
     }
    
     const response = await fetch(url, { signal: signal});
