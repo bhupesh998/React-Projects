@@ -4,23 +4,15 @@ import { useAccoridanContext } from './Accordian'
 const AccordianItem = ({ id, title, children, className}) => {
   const {
     openItemId,
-    openItem,
-    closeItem
+    toggleItem
 }
 = useAccoridanContext()
 
     const isOpen = openItemId==id
     console.log("Render called", id, openItemId, isOpen);
+    
     function handleClick(){
-        
-        
-        if(isOpen){
-            console.log("close item function");
-            
-            closeItem(null)
-        }else{
-            openItem(id)
-        }
+        toggleItem(id)
     }
 
   return (
