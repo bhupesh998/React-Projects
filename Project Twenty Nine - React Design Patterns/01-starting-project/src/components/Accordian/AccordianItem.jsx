@@ -1,26 +1,25 @@
-import React from 'react'
-import { useAccoridanContext } from './Accordian'
+import React, { createContext, useContext } from 'react'
 
-const AccordianItem = ({ id, title, children, className}) => {
-  const {
-    openItemId,
-    toggleItem
+const AccoridanItemContext = createContext()
+
+export function useAccoridanItemContext(){
+  const ctx= useContext(AccoridanItemContext)
+  
+      if(!ctx){
+          throw new Error("Accordian Related Components Must be Wrapped By <Accordian.Item>")
+      }
+  
+      return ctx
 }
-= useAccoridanContext()
 
-    const isOpen = openItemId==id
-    console.log("Render called", id, openItemId, isOpen);
-    
-    function handleClick(){
-        toggleItem(id)
-    }
+const AccordianItem = ({id,  className , children}) => {
 
   return (
-            <li className={className}>
-            <h2 onClick={handleClick}>{title}</h2>
-            {isOpen}
-            <div className={isOpen ? 'accordian-item-content open': 'accordian-item-content'}>{children}</div>
+    <AccoridanItemContext.Provider value={id}>
+    <li className={className}>
+      {children}
     </li>
+    </AccoridanItemContext.Provider>
   )
 }
 

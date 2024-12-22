@@ -1,5 +1,7 @@
 import React, { createContext, useState , useContext} from 'react'
 import AccordianItem from './AccordianItem'
+import AccoridanTitle from './AccoridanTitle'
+import AccoridanContent from './AccoridanContent'
 
 let AccordianContext = createContext()
 
@@ -38,5 +40,7 @@ const Accordian = ({children, className}) => {
 // adding a new property to Accordian componet , item
 // To make or show that accordianitem is a dependent component on accordian we have add Item property in accordian and that will refer to accordianItem only
 Accordian.Item = AccordianItem
+Accordian.Title = AccoridanTitle
+Accordian.Content = AccoridanContent
 
 export default Accordian
